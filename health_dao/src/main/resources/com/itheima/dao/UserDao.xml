@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.UserDao">
+    <select id="findUserByUsername" parameterType="String" resultMap="findUserByUsernameResultMap">
+      SELECT t_user_role.user_id,t_user.username username,t_user_role.role_id,t_user.password,
+      t_role.keyword roleKeyword, t_role_permission.permission_id,
+      t_permission.keyword permissionKeyword
+      FROM t_user,t_role,t_permission,t_user_role,t_role_permission
+      WHERE t_user.id= t_user_role.user_id AND
+      t_role.id= t_user_role.role_id AND
+      t_role.id= t_role_permission.role_id
+      AND t_permission.id= t_role_permission.permission_id
+      AND t_user.username=#{username}
+    </select>
+    <resultMap id="findUserByUsernameResultMap" type="User">
+        <id property="id" column="user_id"></id>
+        <result property="username" column="username"></result>
+        <result property="password" column="password"></result>
+        <collection property="roles" ofType="Role" >
+            <id property="id" column="role_id"></id>
+            <result property="keyword" column="roleKeyword"></result>
+            <collection property="permissions" ofType="Permission">
+                <id property="id" column="permission_id"></id>
+                <result property="keyword" column="permissionKeyword"></result>
+            </collection>
+        </collection>
+    </resultMap>
+</mapper>

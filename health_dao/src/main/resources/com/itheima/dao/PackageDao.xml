@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.PackageDao">
+    <select id="findPackage" resultType="Package" parameterType="String">
+        SELECT * from t_package
+            <if test="value!=null and value.length>0">
+                where code like #{value} or name like #{value}
+            </if>
+    </select>
+
+    <select id="findById"  resultMap="packageCheckGroupCheckItemResultMap" parameterType="int">
+      select p.*,
+            pc.checkgroup_id,
+            g.name as checkgroup_name,g.remark as checkgroup_remark,
+            cc.checkitem_id,
+            i.name as checkitem_name
+        from  t_package p, t_checkgroup g, t_checkitem i,t_checkgroup_checkitem cc,t_package_checkgroup pc
+        where p.id=#{id}
+        and p.id=pc.package_id and pc.checkgroup_id=g.id
+        and g.id=cc.checkgroup_id and cc.checkitem_id=i.id
+    </select>
+    
+    <resultMap id="packageCheckGroupCheckItemResultMap" type="package">
+        <!--套餐-->
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="code" column="code" />
+        <result property="helpCode" column="helpCode" />
+        <result property="sex" column="sex" />
+        <result property="age" column="age" />
+        <result property="price" column="price" />
+        <result property="remark" column="remark" />
+        <result property="attention" column="attention" />
+        <result property="img" column="img" />
+        <!--检查组-->
+        <collection property="checkGroups" ofType="CheckGroup" javaType="List">
+            <id property="id" column="checkgroup_id"></id>
+            <result property="name" column="checkgroup_name"/>
+            <result property="remark" column="checkgroup_remark"/>
+            <!--检查项-->
+            <collection property="checkItems" ofType="CheckItem" javaType="List">
+                <id property="id" column="checkitem_id"></id>
+                <result property="name" column="checkitem_name"></result>
+            </collection>
+        </collection>
+    </resultMap>
+    
+</mapper>

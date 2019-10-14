@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context.xsd">
+
+   <!-- <context:annotation-config></context:annotation-config>
+
+    &lt;!&ndash; 注册自定义Job &ndash;&gt;
+    <bean id="jobDemo" class="com.itheima.jobs.JobDemo"></bean>
+    <bean id="uploadjob" class="com.itheima.jobs.uploadjob"></bean>
+    &lt;!&ndash; 注册JobDetail,作用是负责通过反射调用指定的Job &ndash;&gt;
+    <bean id="jobDetail"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        &lt;!&ndash; 注入目标对象 &ndash;&gt;
+        <property name="targetObject" ref="jobDemo"/>
+        &lt;!&ndash; 注入目标方法 &ndash;&gt;
+        <property name="targetMethod" value="run"/>
+    </bean>
+
+    <bean id="jobDetail2"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        &lt;!&ndash; 注入目标对象 &ndash;&gt;
+        <property name="targetObject" ref="uploadjob"/>
+        &lt;!&ndash; 注入目标方法 &ndash;&gt;
+        <property name="targetMethod" value="run"/>
+    </bean>
+
+    &lt;!&ndash; 注册一个触发器，指定任务触发的时间 &ndash;&gt;
+    <bean id="myTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        &lt;!&ndash; 注入JobDetail &ndash;&gt;
+        <property name="jobDetail" ref="jobDetail"/>
+        &lt;!&ndash; 指定触发的时间，基于Cron表达式 &ndash;&gt;
+        <property name="cronExpression">
+            <value>0/20 * * * * ?</value>
+        </property>
+    </bean>
+
+    <bean id="uploadTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        &lt;!&ndash; 注入JobDetail &ndash;&gt;
+        <property name="jobDetail" ref="jobDetail2"/>
+        &lt;!&ndash; 指定触发的时间，基于Cron表达式 &ndash;&gt;
+        <property name="cronExpression">
+            <value>0/10 * * * * ? </value>
+        </property>
+    </bean>
+    &lt;!&ndash; 注册一个统一的调度工厂，通过这个调度工厂调度任务 &ndash;&gt;
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        &lt;!&ndash; 注入多个触发器 &ndash;&gt;
+        <property name="triggers">
+            <list>
+                &lt;!&ndash;<ref bean="myTrigger"/>&ndash;&gt;
+                <ref bean="uploadTrigger"></ref>
+            </list>
+        </property>
+    </bean>
+
+    <import resource="classpath:spring-redis.xml"></import>-->
+    <!--  <import resource="spring-dao.xml"/>-->
+</beans>
